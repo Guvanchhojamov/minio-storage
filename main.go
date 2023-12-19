@@ -4,13 +4,21 @@ import (
 	"context"
 	"fmt"
 	"github.com/minio/minio-go/v7"
+	"github.com/minio/minio-go/v7/pkg/credentials"
 	"log"
 )
 
 func main() {
-	endpoint := "127.0.0.1:9000"
-	useSSl := false
-	minioClient, err := minio.New(endpoint, &minio.Options{Secure: useSSl})
+	endpoint := "play.min.io"
+	accessKeyID := "Q3AM3UQ867SPQQA43P2F"
+	secretAccessKey := "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG"
+	useSSL := true
+
+	minOpts := &minio.Options{
+		Creds:  credentials.NewStaticV4(accessKeyID, secretAccessKey, ""),
+		Secure: useSSL,
+	}
+	minioClient, err := minio.New(endpoint, minOpts)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -20,5 +28,5 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("Test sotrage minio: %v\n %b", minioClient)
+	fmt.Printf("Test sotrage minio: %v\n %v", minioClient, buckOpts)
 }
