@@ -1,26 +1,10 @@
-version: '3'
-services:
-  minio_server:
-    image: quay.io/minio/minio
-    container_name: miniosrv
-    volumes:
-      - minio_data:/data
-    networks:
-      - minionetwork
-    ports:
-      - 9002:9000
-      - 9090:9090
-    environment:
-      MINIO_ROOT_USER: 'admin'
-      MINIO_ROOT_PASSWORD: 'admin12345'
-      MINIO_ADDRESS: ':9000'
-      MINIO_CONSOLE_ADDRESS: ':9090'
-    command: minio server /data --console-address ":9090"
-
-networks:
-  minionetwork:
-    driver: bridge
-
-volumes:
-  minio_data:
-    driver: local
+#version: '3'
+#services:
+#  minio_server:
+#    build: .
+#    container_name: miniosrv
+#    networks:
+#      - minionetwork
+#networks:
+#  minionetwork:
+#    driver: bridge

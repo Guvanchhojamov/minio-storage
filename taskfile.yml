@@ -1,0 +1,13 @@
+version: '3'
+
+tasks:
+  default:
+    cmds:
+      - task --list-all
+
+  build:
+    cmds:
+      - docker build -t minio/storage .
+  run:
+    cmds:
+      - docker run -it -e MINIO_ROOT_USER=admin -e MINIO_ROOT_PASSWORD=admin12345 -p 9000:9000 -p 9090:9090 --name minio minio/storage

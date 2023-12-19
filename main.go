@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	endpoint := "127.0.0.1:9002"
+	endpoint := "127.0.0.1:9000"
 	useSSl := false
 	minioClient, err := minio.New(endpoint, &minio.Options{Secure: useSSl})
 	if err != nil {
