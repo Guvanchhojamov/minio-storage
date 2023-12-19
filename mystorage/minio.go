@@ -3,7 +3,6 @@ package mystorage
 import (
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
-	"log"
 )
 
 const (
@@ -25,9 +24,6 @@ func (ms *MyStorage) ConnectStorage() (*minio.Client, error) {
 		Creds:  credentials.NewStaticV4(accessKeyID, secretAccessKey, ""),
 		Secure: useSSL,
 	}
-	storageClient, err := minio.New(endpointMinio, minOpts)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return storageClient
+	return minio.New(endpointMinio, minOpts)
+
 }

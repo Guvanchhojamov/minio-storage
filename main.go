@@ -1,11 +1,11 @@
 package main
 
 import (
-	"context"
-	"fmt"
-	"github.com/minio/minio-go/v7"
 	"log"
 	"minio-test/mystorage"
+	"minio-test/router"
+	"minio-test/server"
+	"net/http"
 )
 
 func main() {
@@ -14,10 +14,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	buckOpts := minio.MakeBucketOptions{ObjectLocking: false}
-	err = storageClient.MakeBucket(context.Background(), "first", buckOpts)
+	handler := router.NewRouter(storageClient)
+	srv := server.NewServer(&http.Server{})
+	err = srv.Run(":8085", handler.InitRoutes())
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("server run error")
 	}
-	fmt.Println("minio storage as :9000 console :9090")
+
 }
