@@ -7,5 +7,6 @@ import (
 )
 
 func (r *Router) craeteBucket(ctx *gin.Context) {
+	
 	ctx.JSON(http.StatusOK, "created")
 }
