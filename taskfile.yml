@@ -8,7 +8,7 @@ tasks:
   build:
     cmds:
       - docker volume create storage
-      - docker build -t minio/storage .
+      - docker build -t mystorage/storage .
   run:
     cmds:
-      - docker run -it -v storage:/storage -e MINIO_ROOT_USER=admin -e MINIO_ROOT_PASSWORD=admin12345 -p 9000:9000 -p 9090:9090 --name minio minio/storage
+      - docker run -it -v storage:/storage -e MINIO_ROOT_USER=admin -e MINIO_ROOT_PASSWORD=admin12345 -p 9000:9000 -p 9090:9090 --name mystorage mystorage/storage
