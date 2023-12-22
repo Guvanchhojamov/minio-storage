@@ -33,3 +33,37 @@ func (r *Router) uploadFile(ctx *gin.Context) {
 	})
 	return
 }
+func (r *Router) downloadFile(ctx *gin.Context) {
+	err := r.mystorage.DownloadFile()
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+	ctx.JSON(http.StatusOK, map[string]interface{}{
+		"Download": "success",
+		"Saved in": "/download",
+	})
+	return
+}
+func (r *Router) getFiles(ctx *gin.Context) {
+	data, err := r.mystorage.GetBucketFiles()
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+	ctx.JSON(http.StatusOK, map[string]interface{}{
+		"data": data,
+	})
+	return
+}
+func (r *Router) getFileInfo(ctx *gin.Context) {
+	data, err := r.mystorage.GetFileInfo()
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+	ctx.JSON(http.StatusOK, map[string]interface{}{
+		"data": data,
+	})
+	return
+}

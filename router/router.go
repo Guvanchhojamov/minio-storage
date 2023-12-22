@@ -17,5 +17,8 @@ func (r *Router) InitRoutes() *gin.Engine {
 	router := gin.New()
 	router.POST("/create", r.craeteBucket)
 	router.POST("/upload", r.uploadFile)
+	router.GET("/download", r.downloadFile)
+	router.GET("/objects", r.getFiles)
+	router.GET("/info", r.getFileInfo)
 	return router
 }
