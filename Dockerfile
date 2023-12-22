@@ -1,5 +1,4 @@
 FROM quay.io/minio/minio
-LABEL authors="design"
 WORKDIR /apphome
 COPY . .
 RUN mkdir /storage

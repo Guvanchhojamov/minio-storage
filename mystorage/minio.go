@@ -6,19 +6,19 @@ import (
 )
 
 const (
-	EndpointMinio   = "play.min.io"
-	accessKeyID     = "Q3AM3UQ867SPQQA43P2F"
-	secretAccessKey = "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG"
-	useSSL          = true
+	EndpointMinio   = "127.0.0.1:9000"
+	accessKeyID     = "admin"
+	secretAccessKey = "admin12345"
+	useSSL          = false
 )
 
 type MyStorage struct {
+	storageClient *minio.Client
 }
 
 func NewMyStorage() *MyStorage {
 	return &MyStorage{}
 }
-
 func (ms *MyStorage) ConnectStorage() (*minio.Client, error) {
 	minOpts := &minio.Options{
 		Creds:  credentials.NewStaticV4(accessKeyID, secretAccessKey, ""),

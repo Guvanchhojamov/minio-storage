@@ -14,8 +14,10 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	handler := router.NewRouter(storageClient)
+	myStorageMinio := mystorage.NewStorageMinio(storageClient)
+	handler := router.NewRouter(myStorageMinio)
 	srv := server.NewServer(&http.Server{})
+
 	err = srv.Run(":8085", handler.InitRoutes())
 	if err != nil {
 		log.Fatal("server run error")
