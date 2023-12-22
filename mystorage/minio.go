@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	endpointMinio   = "play.min.io"
+	EndpointMinio   = "play.min.io"
 	accessKeyID     = "Q3AM3UQ867SPQQA43P2F"
 	secretAccessKey = "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG"
 	useSSL          = true
@@ -24,6 +24,6 @@ func (ms *MyStorage) ConnectStorage() (*minio.Client, error) {
 		Creds:  credentials.NewStaticV4(accessKeyID, secretAccessKey, ""),
 		Secure: useSSL,
 	}
-	return minio.New(endpointMinio, minOpts)
+	return minio.New(EndpointMinio, minOpts)
 
 }
