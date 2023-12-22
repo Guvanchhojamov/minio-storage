@@ -67,3 +67,26 @@ func (r *Router) getFileInfo(ctx *gin.Context) {
 	})
 	return
 }
+
+func (r *Router) deleteFile(ctx *gin.Context) {
+	isDeleted, err := r.mystorage.RemoveFileFromStorage()
+	if err != nil || !isDeleted {
+		ctx.JSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+	ctx.JSON(http.StatusOK, map[string]interface{}{
+		"Deleted": true,
+	})
+	return
+}
+func (r *Router) getFileLink(ctx *gin.Context) {
+	fileUrl, err := r.mystorage.GetFileLink()
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+	ctx.JSON(http.StatusOK, map[string]interface{}{
+		"File URL": fileUrl.String(),
+	})
+	return
+}

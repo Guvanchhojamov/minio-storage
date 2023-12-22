@@ -20,5 +20,7 @@ func (r *Router) InitRoutes() *gin.Engine {
 	router.GET("/download", r.downloadFile)
 	router.GET("/objects", r.getFiles)
 	router.GET("/info", r.getFileInfo)
+	router.GET("/delete", r.deleteFile)
+	router.GET("/getlink", r.getFileLink)
 	return router
 }

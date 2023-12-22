@@ -2,9 +2,11 @@ package mystorage
 
 import (
 	"context"
-	"errors"
+	"fmt"
 	"github.com/minio/minio-go/v7"
 	"minio-test/models"
+	"net/url"
+	"time"
 )
 
 type StorageMinio struct {
@@ -31,8 +33,8 @@ func (s *StorageMinio) UploadFile() (minio.UploadInfo, error) {
 
 	var (
 		bucketName = "images"
-		objectName = "image3.png"
-		filePath   = "./tmp/image3.png"
+		objectName = "image1.png"
+		filePath   = "./tmp/image1.png"
 		putOpts    = minio.PutObjectOptions{ContentType: "image/png"}
 	)
 	return s.storageClient.FPutObject(context.Background(), bucketName, objectName, filePath, putOpts)
@@ -82,9 +84,29 @@ func (s *StorageMinio) GetFileInfo() (minio.ObjectInfo, error) {
 	}
 	return objectInfo, err
 }
-func (s *StorageMinio) RemoveFileFromStorage() error {
-	return errors.New("some error")
+func (s *StorageMinio) RemoveFileFromStorage() (bool, error) {
+	var (
+		bucketName = "images"
+		objcetName = "image1.png"
+	)
+	removeOpts := minio.RemoveObjectOptions{}
+	err := s.storageClient.RemoveObject(context.Background(), bucketName, objcetName, removeOpts)
+	if err != nil {
+		return false, err
+	}
+	return true, nil
 }
-func (s *StorageMinio) GetFileLink() error {
-	return errors.New("some error")
+func (s *StorageMinio) GetFileLink() (*url.URL, error) {
+	var (
+		bucketName = "images"
+		objectName = "image1.png"
+		expires    = time.Hour * 24
+	)
+	urlParams := make(url.Values)
+	urlParams.Set("response-content-disposition", fmt.Sprintf(`attachment; filename="%s"`, objectName))
+	u, err := s.storageClient.PresignedGetObject(context.Background(), bucketName, objectName, expires, urlParams)
+	if err != nil {
+		return nil, err
+	}
+	return u, err
 }
