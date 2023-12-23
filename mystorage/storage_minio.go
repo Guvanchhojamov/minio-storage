@@ -29,15 +29,9 @@ func (s *StorageMinio) CreateBucket(bucketName string) (bool, error) {
 	return true, nil
 }
 
-func (s *StorageMinio) UploadFile() (minio.UploadInfo, error) {
-
-	var (
-		bucketName = "images"
-		objectName = "image1.png"
-		filePath   = "./tmp/image1.png"
-		putOpts    = minio.PutObjectOptions{ContentType: "image/png"}
-	)
-	return s.storageClient.FPutObject(context.Background(), bucketName, objectName, filePath, putOpts)
+func (s *StorageMinio) UploadFile(fileName, filePath, bucketName, contentType string) (minio.UploadInfo, error) {
+	var putOpts = minio.PutObjectOptions{ContentType: contentType}
+	return s.storageClient.FPutObject(context.Background(), bucketName, fileName, filePath, putOpts)
 }
 
 func (s *StorageMinio) DownloadFile(bucketName string, fileName string) error {
