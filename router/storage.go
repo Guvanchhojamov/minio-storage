@@ -1,6 +1,7 @@
 package router
 
 import (
+	"errors"
 	"fmt"
 	"minio-test/models"
 	"net/http"
@@ -34,16 +35,18 @@ func (r *Router) uploadFile(ctx *gin.Context) {
 	return
 }
 func (r *Router) downloadFile(ctx *gin.Context) {
-	err := r.mystorage.DownloadFile()
+	bucketName := ctx.Param("bucketname")
+	filename := ctx.Param("filename")
+	if bucketName == "" || filename == "" {
+		ctx.JSON(http.StatusBadRequest, errors.New("not valid request"))
+		return
+	}
+	err := r.mystorage.DownloadFile(bucketName, filename)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}
-	ctx.JSON(http.StatusOK, map[string]interface{}{
-		"Download": "success",
-		"Saved in": "/download",
-	})
-	return
+	ctx.JSON(http.StatusOK, models.DownloadResponse{Download: true, Saved: "/download"})
 }
 func (r *Router) getFiles(ctx *gin.Context) {
 	data, err := r.mystorage.GetBucketFiles()

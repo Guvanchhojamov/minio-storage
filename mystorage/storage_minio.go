@@ -40,14 +40,13 @@ func (s *StorageMinio) UploadFile() (minio.UploadInfo, error) {
 	return s.storageClient.FPutObject(context.Background(), bucketName, objectName, filePath, putOpts)
 }
 
-func (s *StorageMinio) DownloadFile() error {
+func (s *StorageMinio) DownloadFile(bucketName string, fileName string) error {
 	var (
-		bucketName = "images"
-		objectName = "image3.png"
-		filePath   = "./download/image3.png"
-		putOpts    = minio.GetObjectOptions{}
+		filePath = fmt.Sprintf("./downloads/%s", fileName)
+		putOpts  = minio.GetObjectOptions{}
 	)
-	return s.storageClient.FGetObject(context.Background(), bucketName, objectName, filePath, putOpts)
+
+	return s.storageClient.FGetObject(context.Background(), bucketName, fileName, filePath, putOpts)
 }
 func (s *StorageMinio) GetBucketFiles() (interface{}, error) {
 	var (

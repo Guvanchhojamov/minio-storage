@@ -14,3 +14,7 @@ type Object struct {
 	LastModified time.Time       `json:"last_modified"`
 	Type         minio.StringMap `json:"type"`
 }
+type DownloadResponse struct {
+	Download bool   `json:"download"`
+	Saved    string `json:"saved"`
+}
