@@ -46,7 +46,7 @@ func (r *Router) downloadFile(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}
-	ctx.JSON(http.StatusOK, models.DownloadResponse{Download: true, Saved: "/download"})
+	ctx.JSON(http.StatusOK, models.DownloadResponse{Download: true, Saved: "/downloads"})
 }
 func (r *Router) getFiles(ctx *gin.Context) {
 	data, err := r.mystorage.GetBucketFiles()
