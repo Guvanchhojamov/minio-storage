@@ -75,9 +75,7 @@ func (r *Router) getFiles(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}
-	ctx.JSON(http.StatusOK, map[string]interface{}{
-		"data": data,
-	})
+	ctx.JSON(http.StatusOK, models.GetFilesResponse{Data: data})
 	return
 }
 func (r *Router) getFileInfo(ctx *gin.Context) {
@@ -86,9 +84,7 @@ func (r *Router) getFileInfo(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}
-	ctx.JSON(http.StatusOK, map[string]interface{}{
-		"data": data,
-	})
+	ctx.JSON(http.StatusOK, models.GetFileInfoResponse{Data: data})
 	return
 }
 

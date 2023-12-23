@@ -26,3 +26,10 @@ type UploadFile struct {
 }
 type UploadFileResponse struct {
 }
+type GetFilesResponse struct {
+	Data interface{}
+}
+
+type GetFileInfoResponse struct {
+	Data minio.ObjectInfo
+}
