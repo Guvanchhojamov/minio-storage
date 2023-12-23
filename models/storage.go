@@ -2,6 +2,7 @@ package models
 
 import (
 	"github.com/minio/minio-go/v7"
+	"mime/multipart"
 	"time"
 )
 
@@ -17,4 +18,9 @@ type Object struct {
 type DownloadResponse struct {
 	Download bool   `json:"download"`
 	Saved    string `json:"saved"`
+}
+
+type UploadFile struct {
+	BucketName string                `form:"bucket_name" binding:"required"`
+	File       *multipart.FileHeader `form:"file" binding:"required"`
 }

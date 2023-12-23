@@ -9,6 +9,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+const (
+	tempFolder = "temp"
+)
+
 func (r *Router) craeteBucket(ctx *gin.Context) {
 	var input models.Create
 	err := ctx.BindJSON(&input)
@@ -24,7 +28,26 @@ func (r *Router) craeteBucket(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, fmt.Sprintf("created Bucket - %s", input.BucketName))
 }
 func (r *Router) uploadFile(ctx *gin.Context) {
-	putInfo, err := r.mystorage.UploadFile()
+	var uploadInput models.UploadFile
+	err := ctx.ShouldBind(&uploadInput)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+	fileHeader, err := ctx.FormFile("file")
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+	contentType := fileHeader.Header.Get("Content-Type")
+	bucketName := ctx.PostForm("bucket_name")
+	filePath := fmt.Sprintf("./%s/%s", tempFolder, fileHeader.Filename)
+	err = ctx.SaveUploadedFile(fileHeader, filePath)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, err.Error())
+		return
+	}
+	putInfo, err := r.mystorage.UploadFile(fileHeader.Filename, filePath, bucketName, contentType)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, err.Error())
 		return
