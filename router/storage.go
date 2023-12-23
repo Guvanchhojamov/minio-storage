@@ -52,9 +52,7 @@ func (r *Router) uploadFile(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}
-	ctx.JSON(http.StatusOK, map[string]interface{}{
-		"Upload Info": putInfo,
-	})
+	ctx.JSON(http.StatusOK, putInfo)
 	return
 }
 func (r *Router) downloadFile(ctx *gin.Context) {

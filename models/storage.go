@@ -24,3 +24,5 @@ type UploadFile struct {
 	BucketName string                `form:"bucket_name" binding:"required"`
 	File       *multipart.FileHeader `form:"file" binding:"required"`
 }
+type UploadFileResponse struct {
+}
